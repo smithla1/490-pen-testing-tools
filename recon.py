@@ -146,6 +146,8 @@ def get_email_addresses(website):
 
 
 """
+    This method will gather and store in a local file information about the
+    names associated with a given URL.
 """
 def get_Names(website):
     subprocess.call("whois %s > name_temp.txt" % website, shell=True)
@@ -164,8 +166,9 @@ def get_Names(website):
 
     subprocess.call("rm email_temp.txt", shell=True)
 
-"""
 
+"""
+    This method will drive the operation of the reconnaissance tool.
 """
 def main():
 
@@ -186,15 +189,15 @@ def main():
                     "Example: recon.py -d amazon.com\n"+
                     "Type 'recon.py help' for more information.")
 
-    if len(sys.argv) < 2 or len(sys.argv) > 3:
+    if len(sys.argv) < 2 or len(sys.argv) > 3: #not enough or too many args
         print(usageMessage)
         return
     else:
-        if len(sys.argv) == 2: # Only the URL was provided, capture all info
-            if sys.argv[1].lower() == "help":
+        if len(sys.argv) == 2: # Only one arg was provided
+            if sys.argv[1].lower() == "help": # User wants usage information
                 print(helpMessage)
                 return
-            else:    
+            else:  # only URL was provided, gather all potential information
                 get_IP_addresses(sys.argv[-1])
                 get_DNS_servers(sys.argv[-1])
                 get_email_addresses(sys.argv[-1])
@@ -214,7 +217,7 @@ def main():
         elif sys.argv[1].lower() == "-n":
             get_Names(sys.argv[-1])
             print("Name reconnaissance successful!\n\"names.txt\" created")
-        else: 
+        else: # User input unknown flag
             print(usageMessage)
             return
     
